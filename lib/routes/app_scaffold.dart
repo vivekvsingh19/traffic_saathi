@@ -6,14 +6,12 @@ import '../core/theme/app_theme.dart';
 class AppScaffold extends StatelessWidget {
   final Widget child;
 
-  const AppScaffold({
-    super.key,
-    required this.child,
-  });
+  const AppScaffold({super.key, required this.child});
 
   int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.path;
-    if (location.startsWith('/violations') || location.startsWith('/fine-details')) {
+    if (location.startsWith('/violations') ||
+        location.startsWith('/fine-details')) {
       return 1;
     }
     if (location.startsWith('/police-statement')) {
@@ -77,19 +75,31 @@ class AppScaffold extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () => _onItemTapped(0, context),
-                    child: _NavBarIcon(icon: CupertinoIcons.home, isSelected: currentIndex == 0),
+                    child: _NavBarIcon(
+                      icon: CupertinoIcons.home,
+                      isSelected: currentIndex == 0,
+                    ),
                   ),
                   GestureDetector(
                     onTap: () => _onItemTapped(1, context),
-                    child: _NavBarIcon(icon: CupertinoIcons.doc_text, isSelected: currentIndex == 1),
+                    child: _NavBarIcon(
+                      icon: CupertinoIcons.doc_text,
+                      isSelected: currentIndex == 1,
+                    ),
                   ),
                   GestureDetector(
                     onTap: () => _onItemTapped(2, context),
-                    child: _NavBarIcon(icon: CupertinoIcons.shield_lefthalf_fill, isSelected: currentIndex == 2),
+                    child: _NavBarIcon(
+                      icon: CupertinoIcons.shield_lefthalf_fill,
+                      isSelected: currentIndex == 2,
+                    ),
                   ),
                   GestureDetector(
                     onTap: () => _onItemTapped(3, context),
-                    child: _NavBarIcon(icon: CupertinoIcons.pen, isSelected: currentIndex == 3),
+                    child: _NavBarIcon(
+                      icon: CupertinoIcons.pen,
+                      isSelected: currentIndex == 3,
+                    ),
                   ),
                 ],
               ),
@@ -105,10 +115,7 @@ class _NavBarIcon extends StatelessWidget {
   final IconData icon;
   final bool isSelected;
 
-  const _NavBarIcon({
-    required this.icon,
-    required this.isSelected,
-  });
+  const _NavBarIcon({required this.icon, required this.isSelected});
 
   @override
   Widget build(BuildContext context) {

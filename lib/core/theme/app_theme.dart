@@ -5,8 +5,11 @@ class AppTheme {
   AppTheme._();
 
   // Colors
-  static const Color primaryColor = Color(
-    0xFFD7F86B,
+  static const Color primaryColor = Color.fromARGB(
+    255,
+    248,
+    246,
+    107,
   ); // Vibrant neon lime/yellow
   static const Color onPrimaryColor = Color(0xFF131313); // Dark text on primary
   static const Color backgroundColor = Color(
@@ -61,9 +64,7 @@ class AppTheme {
       cardTheme: CardThemeData(
         color: cardColor,
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(

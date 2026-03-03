@@ -8,7 +8,8 @@ import '../features/emergency_card/emergency_card_screen.dart';
 import 'app_scaffold.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _shellNavigatorKey =
+    GlobalKey<NavigatorState>();
 
 final appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -18,10 +19,7 @@ final appRouter = GoRouter(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) => AppScaffold(child: child),
       routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, state) => const HomeScreen(),
-        ),
+        GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
         GoRoute(
           path: '/violations',
           builder: (context, state) => const ViolationListScreen(),

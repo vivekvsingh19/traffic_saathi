@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                             color: Colors.black.withValues(alpha: 0.03),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
-                          )
+                          ),
                         ],
                       ),
                       child: const Icon(
@@ -82,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                           color: AppTheme.primaryColor.withValues(alpha: 0.3),
                           blurRadius: 16,
                           offset: const Offset(0, 8),
-                        )
+                        ),
                       ],
                     ),
                     child: Row(
@@ -94,7 +94,10 @@ class HomeScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 8,
+                                ),
                                 decoration: BoxDecoration(
                                   color: AppTheme.darkAccent,
                                   borderRadius: BorderRadius.circular(20),
@@ -126,7 +129,9 @@ class HomeScreen extends StatelessWidget {
                                 style: GoogleFonts.inter(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
-                                  color: AppTheme.darkAccent.withValues(alpha: 0.7),
+                                  color: AppTheme.darkAccent.withValues(
+                                    alpha: 0.7,
+                                  ),
                                 ),
                               ),
                             ],
@@ -216,7 +221,8 @@ class HomeScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         'Report',
@@ -261,7 +267,8 @@ class HomeScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         'Rules',
@@ -343,11 +350,10 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          
+
           // Navigation bar is now handled by ShellRoute in app_scaffold.dart
         ],
       ),
     );
   }
 }
-
