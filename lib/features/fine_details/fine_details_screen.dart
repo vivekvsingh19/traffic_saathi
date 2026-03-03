@@ -61,7 +61,7 @@ class FineDetailsScreen extends ConsumerWidget {
                         style: GoogleFonts.inter(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: AppTheme.primaryColor,
+                          color: Colors.black87,
                         ),
                       ),
                     ),
@@ -138,7 +138,7 @@ class FineDetailsScreen extends ConsumerWidget {
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: AppTheme.primaryColor,
+                        color: Colors.grey.shade800,
                       ),
                     ),
                     const SizedBox(height: 12),
