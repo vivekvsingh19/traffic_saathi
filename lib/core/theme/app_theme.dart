@@ -5,24 +5,15 @@ class AppTheme {
   AppTheme._();
 
   // Colors
-  static const Color primaryColor = Color.fromARGB(
-    255,
-    248,
-    246,
-    107,
-  ); // Vibrant neon lime/yellow
-  static const Color onPrimaryColor = Color(0xFF131313); // Dark text on primary
-  static const Color backgroundColor = Color(
-    0xFFF0F5F2,
-  ); // Soft minty/grey off-white
+  static const Color primaryColor = Color(0xFF1E3A8A); // Deep blue
+  static const Color onPrimaryColor = Colors.white; // White text on primary
+  static const Color backgroundColor = Color(0xFFF8F9FA); // Off-white background
   static const Color surfaceColor = Colors.white;
   static const Color cardColor = Colors.white;
-  static const Color darkAccent = Color(
-    0xFF131313,
-  ); // Dark color for nav bar & text
-  static const Color subtitleColor = Color(0xFF888888);
-  static const Color successColor = Color(0xFFBAD55C);
-  static const Color warningColor = Color(0xFFFF5252);
+  static const Color darkAccent = Color(0xFF1F2937); // Dark gray text
+  static const Color subtitleColor = Color(0xFF6B7280); // Gray for secondary texts
+  static const Color successColor = Color(0xFF10B981); // Green
+  static const Color warningColor = Color(0xFFEF4444); // Red
 
   static ThemeData get lightTheme {
     final textTheme = GoogleFonts.interTextTheme();
@@ -64,7 +55,9 @@ class AppTheme {
       cardTheme: CardThemeData(
         color: cardColor,
         elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20), // consistent 20 radius
+        ),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -74,11 +67,11 @@ class AppTheme {
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(16),
           ),
           textStyle: GoogleFonts.inter(
             fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500, // Medium weight
           ),
         ),
       ),
@@ -88,13 +81,12 @@ class AppTheme {
           backgroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side: const BorderSide(color: Colors.transparent),
+            borderRadius: BorderRadius.circular(16),
           ),
-          side: const BorderSide(color: Colors.transparent),
+          side: BorderSide(color: Colors.grey.shade300),
           textStyle: GoogleFonts.inter(
             fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500, // Medium weight
           ),
         ),
       ),

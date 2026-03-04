@@ -5,6 +5,7 @@ import '../features/violation/violation_list_screen.dart';
 import '../features/fine_details/fine_details_screen.dart';
 import '../features/police_statement/police_statement_screen.dart';
 import '../features/emergency_card/emergency_card_screen.dart';
+import '../features/fine_calculator/fine_calculator_screen.dart';
 import 'app_scaffold.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -38,6 +39,10 @@ final appRouter = GoRouter(
         GoRoute(
           path: '/emergency-card',
           builder: (context, state) => const EmergencyCardScreen(),
+        ),
+        GoRoute(
+          path: '/fine-calculator',
+          builder: (context, state) => const FineCalculatorScreen(),
         ),
       ],
     ),

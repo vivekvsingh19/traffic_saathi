@@ -54,7 +54,10 @@ class EmergencyCardScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 8,
+                ),
                 physics: const BouncingScrollPhysics(),
                 children: [
                   // Header
@@ -69,7 +72,7 @@ class EmergencyCardScreen extends StatelessWidget {
                           color: AppTheme.warningColor.withValues(alpha: 0.3),
                           blurRadius: 16,
                           offset: const Offset(0, 8),
-                        )
+                        ),
                       ],
                     ),
                     child: Column(
