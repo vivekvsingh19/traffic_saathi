@@ -47,7 +47,10 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -110,7 +113,9 @@ class HomeScreen extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: AppTheme.primaryColor.withValues(alpha: 0.15),
+                            color: AppTheme.primaryColor.withValues(
+                              alpha: 0.15,
+                            ),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -123,64 +128,6 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
-
-                // Fine Calculator Card
-                InkWell(
-                  onTap: () => context.push('/fine-calculator'),
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFDFEAFE),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: const Color(0xFFC7D2FE)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Calculate Your Fine',
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF1E40AF),
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Smart calculator with surcharges',
-                                style: GoogleFonts.inter(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFF1E3A8A),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF3B82F6),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            CupertinoIcons.chart_bar_fill,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
                 const SizedBox(height: 16),
 
                 // Urgent / Tool Actions Grid
@@ -250,7 +197,8 @@ class HomeScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         'Report',
@@ -282,40 +230,43 @@ class HomeScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           InkWell(
-                            onTap: () => context.push('/violations'),
+                            onTap: () => context.push('/fine-calculator'),
                             borderRadius: BorderRadius.circular(20),
                             child: Container(
                               width: double.infinity,
                               padding: const EdgeInsets.all(18),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: const Color(0xFFDFEAFE),
                                 borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.grey.shade200),
+                                border: Border.all(
+                                  color: const Color(0xFFC7D2FE),
+                                ),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'Rules',
+                                        'Calculate',
                                         style: GoogleFonts.inter(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
-                                          color: AppTheme.darkAccent,
+                                          color: const Color(0xFF1E40AF),
                                         ),
                                       ),
                                       const Icon(
-                                        CupertinoIcons.book,
+                                        CupertinoIcons.chart_bar_fill,
                                         size: 20,
-                                        color: AppTheme.primaryColor,
+                                        color: const Color(0xFF1E40AF),
                                       ),
                                     ],
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    'Traffic guide',
+                                    'Your fine',
                                     style: GoogleFonts.inter(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
@@ -348,13 +299,25 @@ class HomeScreen extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   child: Row(
                     children: [
-                      const _ViolationChip(title: 'Helmet', icon: CupertinoIcons.shield),
+                      const _ViolationChip(
+                        title: 'Helmet',
+                        icon: CupertinoIcons.shield,
+                      ),
                       const SizedBox(width: 8),
-                      const _ViolationChip(title: 'Seatbelt', icon: CupertinoIcons.car_detailed),
+                      const _ViolationChip(
+                        title: 'Seatbelt',
+                        icon: CupertinoIcons.car_detailed,
+                      ),
                       const SizedBox(width: 8),
-                      const _ViolationChip(title: 'Mobile Use', icon: CupertinoIcons.device_phone_portrait),
+                      const _ViolationChip(
+                        title: 'Mobile Use',
+                        icon: CupertinoIcons.device_phone_portrait,
+                      ),
                       const SizedBox(width: 8),
-                      const _ViolationChip(title: 'Drink & Drive', icon: CupertinoIcons.drop),
+                      const _ViolationChip(
+                        title: 'Drink & Drive',
+                        icon: CupertinoIcons.drop,
+                      ),
                     ],
                   ),
                 ),
@@ -441,12 +404,14 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       _FAQItem(
                         question: 'What if I disagree with the fine?',
-                        answer: 'You can appeal within 30 days at traffic court',
+                        answer:
+                            'You can appeal within 30 days at traffic court',
                       ),
                       Divider(color: Colors.grey.shade200),
                       _FAQItem(
                         question: 'Can I pay online?',
-                        answer: 'Yes, most fines can be paid through official traffic portals',
+                        answer:
+                            'Yes, most fines can be paid through official traffic portals',
                       ),
                     ],
                   ),
@@ -534,7 +499,9 @@ class _FAQItemState extends State<_FAQItem> {
                   ),
                 ),
                 Icon(
-                  isExpanded ? CupertinoIcons.chevron_up : CupertinoIcons.chevron_down,
+                  isExpanded
+                      ? CupertinoIcons.chevron_up
+                      : CupertinoIcons.chevron_down,
                   size: 18,
                   color: AppTheme.subtitleColor,
                 ),

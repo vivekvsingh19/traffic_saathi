@@ -207,7 +207,7 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: AppTheme.primaryColor,
+                  color: const Color(0xFF1E3A8A),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
@@ -218,7 +218,7 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: AppTheme.darkAccent,
+                        color: Colors.white.withValues(alpha: 0.85),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -227,7 +227,7 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                       style: GoogleFonts.inter(
                         fontSize: 48,
                         fontWeight: FontWeight.w700,
-                        color: AppTheme.darkAccent,
+                        color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -237,7 +237,7 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: Colors.white.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -245,7 +245,7 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: AppTheme.darkAccent,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -365,10 +365,10 @@ class _OffenceButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.primaryColor : Colors.white,
+          color: isSelected ? const Color(0xFF1E3A8A) : Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? AppTheme.primaryColor : Colors.grey.shade200,
+            color: isSelected ? const Color(0xFF1E3A8A) : Colors.grey.shade200,
           ),
         ),
         child: Center(
@@ -377,7 +377,7 @@ class _OffenceButton extends StatelessWidget {
             style: GoogleFonts.inter(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: isSelected ? AppTheme.darkAccent : AppTheme.darkAccent,
+              color: isSelected ? Colors.white : AppTheme.darkAccent,
             ),
           ),
         ),
