@@ -21,8 +21,10 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
   int calculateFine() {
     if (selectedViolation == null) return 0;
 
-    int baseFine = isFirstOffence ? selectedViolation!.fineFirst : selectedViolation!.fineRepeat;
-    
+    int baseFine = isFirstOffence
+        ? selectedViolation!.fineFirst
+        : selectedViolation!.fineRepeat;
+
     // Commercial vehicle surcharge (25%)
     if (isCommercialVehicle) {
       baseFine = (baseFine * 1.25).toInt();
@@ -230,7 +232,10 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                     ),
                     const SizedBox(height: 16),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(12),
@@ -271,7 +276,9 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                     const SizedBox(height: 12),
                     _InfoRow(
                       label: 'License Seizable',
-                      value: selectedViolation!.licenseSeizable ? '✓ Yes' : '✗ No',
+                      value: selectedViolation!.licenseSeizable
+                          ? '✓ Yes'
+                          : '✗ No',
                       valueColor: selectedViolation!.licenseSeizable
                           ? const Color(0xFFEF4444)
                           : const Color(0xFF10B981),
@@ -279,7 +286,9 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                     const SizedBox(height: 8),
                     _InfoRow(
                       label: 'Vehicle Seizable',
-                      value: selectedViolation!.vehicleSeizable ? '✓ Yes' : '✗ No',
+                      value: selectedViolation!.vehicleSeizable
+                          ? '✓ Yes'
+                          : '✗ No',
                       valueColor: selectedViolation!.vehicleSeizable
                           ? const Color(0xFFEF4444)
                           : const Color(0xFF10B981),
@@ -287,7 +296,9 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                     const SizedBox(height: 8),
                     _InfoRow(
                       label: 'Receipt Required',
-                      value: selectedViolation!.receiptMandatory ? '✓ Yes' : '✗ No',
+                      value: selectedViolation!.receiptMandatory
+                          ? '✓ Yes'
+                          : '✗ No',
                       valueColor: AppTheme.primaryColor,
                     ),
                     const SizedBox(height: 8),

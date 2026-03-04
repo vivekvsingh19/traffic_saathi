@@ -332,7 +332,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 24),
-                
+
                 // Common Violations Horizontal Scroll
                 Text(
                   'Common Violations',
@@ -456,7 +456,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          
+
           // Navigation bar is now handled by ShellRoute in app_scaffold.dart
         ],
       ),

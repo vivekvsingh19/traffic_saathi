@@ -7,11 +7,15 @@ class AppTheme {
   // Colors
   static const Color primaryColor = Color(0xFF1E3A8A); // Deep blue
   static const Color onPrimaryColor = Colors.white; // White text on primary
-  static const Color backgroundColor = Color(0xFFF8F9FA); // Off-white background
+  static const Color backgroundColor = Color(
+    0xFFF8F9FA,
+  ); // Off-white background
   static const Color surfaceColor = Colors.white;
   static const Color cardColor = Colors.white;
   static const Color darkAccent = Color(0xFF1F2937); // Dark gray text
-  static const Color subtitleColor = Color(0xFF6B7280); // Gray for secondary texts
+  static const Color subtitleColor = Color(
+    0xFF6B7280,
+  ); // Gray for secondary texts
   static const Color successColor = Color(0xFF10B981); // Green
   static const Color warningColor = Color(0xFFEF4444); // Red
 
