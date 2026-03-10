@@ -72,12 +72,12 @@ class HomeScreen extends StatelessWidget {
                 // Primary Action: Scan/Check Challan
                 InkWell(
                   onTap: () => context.push('/violations'),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(30),
                   child: Container(
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
                       color: const Color(0xFFD9D5FF),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -137,12 +137,12 @@ class HomeScreen extends StatelessWidget {
                       flex: 5,
                       child: InkWell(
                         onTap: () => context.push('/emergency-card'),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(30),
                         child: Container(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             color: AppTheme.warningColor,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(30),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,13 +184,13 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () => context.push('/police-statement'),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(30),
                             child: Container(
                               width: double.infinity,
                               padding: const EdgeInsets.all(18),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(30),
                                 border: Border.all(color: Colors.grey.shade200),
                               ),
                               child: Column(
@@ -231,13 +231,13 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(height: 16),
                           InkWell(
                             onTap: () => context.push('/fine-calculator'),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(30),
                             child: Container(
                               width: double.infinity,
                               padding: const EdgeInsets.all(18),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFDFEAFE),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(30),
                                 border: Border.all(
                                   color: const Color(0xFFC7D2FE),
                                 ),
@@ -329,7 +329,7 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF0FDF4),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(30),
                     border: Border.all(color: const Color(0xFFBBF7D0)),
                   ),
                   child: Column(
@@ -397,7 +397,7 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(24),
                     border: Border.all(color: Colors.grey.shade200),
                   ),
                   child: Column(
@@ -441,7 +441,7 @@ class _ViolationChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(30),
         border: Border.all(color: Colors.grey.shade200),
       ),
       child: Row(
