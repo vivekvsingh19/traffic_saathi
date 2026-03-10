@@ -22,11 +22,14 @@ class FineResultScreen extends StatelessWidget {
 
   List<Color> _getGradientColor() {
     // Use different gradients based on violation type
-    if (violation.title.contains('Helmet') || violation.title.contains('Seatbelt')) {
+    if (violation.title.contains('Helmet') ||
+        violation.title.contains('Seatbelt')) {
       return [const Color(0xFF6D28D9), const Color(0xFF7C3AED)]; // Purple
-    } else if (violation.title.contains('Speeding') || violation.title.contains('Speed')) {
+    } else if (violation.title.contains('Speeding') ||
+        violation.title.contains('Speed')) {
       return [const Color(0xFFDC2626), const Color(0xFFEF4444)]; // Red
-    } else if (violation.title.contains('Drink') || violation.title.contains('DUI')) {
+    } else if (violation.title.contains('Drink') ||
+        violation.title.contains('DUI')) {
       return [const Color(0xFFF59E0B), const Color(0xFFFCD34D)]; // Amber
     } else {
       return [const Color(0xFF1E40AF), const Color(0xFF3B82F6)]; // Blue
@@ -64,10 +67,7 @@ class FineResultScreen extends StatelessWidget {
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    _getGradientColor()[0],
-                    _getGradientColor()[1],
-                  ],
+                  colors: [_getGradientColor()[0], _getGradientColor()[1]],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -150,7 +150,9 @@ class FineResultScreen extends StatelessWidget {
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: _getGradientColor()[0].withValues(alpha: 0.2)),
+                border: Border.all(
+                  color: _getGradientColor()[0].withValues(alpha: 0.2),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

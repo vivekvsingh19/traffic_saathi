@@ -32,8 +32,12 @@ class AppTheme {
   static const Color accentTeal = Color(0xFFF0FDFA); // Light teal
 
   // Brand Accent Colors
-  static const Color violationRed = Color(0xFFDC2626); // Darker red for violations
-  static const Color successGreen = Color(0xFF059669); // Strong green for success
+  static const Color violationRed = Color(
+    0xFFDC2626,
+  ); // Darker red for violations
+  static const Color successGreen = Color(
+    0xFF059669,
+  ); // Strong green for success
   static const Color infoBlue = Color(0xFF1E40AF); // Darker blue for info
 
   static ThemeData get lightTheme {

@@ -120,9 +120,7 @@ class HomeScreen extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(
-                              alpha: 0.2,
-                            ),
+                            color: Colors.white.withValues(alpha: 0.2),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
@@ -234,7 +232,9 @@ class HomeScreen extends StatelessWidget {
                                     style: GoogleFonts.inter(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
-                                      color: Colors.white.withValues(alpha: 0.85),
+                                      color: Colors.white.withValues(
+                                        alpha: 0.85,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -287,7 +287,9 @@ class HomeScreen extends StatelessWidget {
                                     style: GoogleFonts.inter(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
-                                      color: Colors.white.withValues(alpha: 0.85),
+                                      color: Colors.white.withValues(
+                                        alpha: 0.85,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -346,10 +348,7 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        AppTheme.accentOrange,
-                        const Color(0xFFFEF08A),
-                      ],
+                      colors: [AppTheme.accentOrange, const Color(0xFFFEF08A)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -364,7 +363,9 @@ class HomeScreen extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFFED4E).withValues(alpha: 0.6),
+                              color: const Color(
+                                0xFFFFED4E,
+                              ).withValues(alpha: 0.6),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -421,10 +422,7 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        AppTheme.accentBlue,
-                        const Color(0xFFC7D2FE),
-                      ],
+                      colors: [AppTheme.accentBlue, const Color(0xFFC7D2FE)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -518,9 +516,7 @@ class _ViolationChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: _getChipColor(),
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(
-          color: _getIconColor().withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: _getIconColor().withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

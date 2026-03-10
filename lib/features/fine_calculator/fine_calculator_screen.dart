@@ -163,7 +163,9 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                                 end: Alignment.centerRight,
                               )
                             : null,
-                        color: index <= _currentPage ? null : Colors.grey.shade300,
+                        color: index <= _currentPage
+                            ? null
+                            : Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(3),
                       ),
                     ),
@@ -432,7 +434,8 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
       '4': [const Color(0xFF1E40AF), const Color(0xFF3B82F6)], // Blue
     };
 
-    final colors = stepColors[step] ?? [const Color(0xFF1E3A8A), const Color(0xFF3B82F6)];
+    final colors =
+        stepColors[step] ?? [const Color(0xFF1E3A8A), const Color(0xFF3B82F6)];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,7 +444,10 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [colors[0].withValues(alpha: 0.1), colors[1].withValues(alpha: 0.1)],
+              colors: [
+                colors[0].withValues(alpha: 0.1),
+                colors[1].withValues(alpha: 0.1),
+              ],
             ),
             borderRadius: BorderRadius.circular(20),
           ),
@@ -514,17 +520,25 @@ class _OptionCard extends StatelessWidget {
 
   List<Color> _getCardColors() {
     // Determine color based on label
-    if (label.contains('First') || label.contains('Personal') || label.contains('No')) {
-      return [const Color(0xFF0D9488), const Color(0xFF14B8A6)]; // Teal for positive
+    if (label.contains('First') ||
+        label.contains('Personal') ||
+        label.contains('No')) {
+      return [
+        const Color(0xFF0D9488),
+        const Color(0xFF14B8A6),
+      ]; // Teal for positive
     } else {
-      return [const Color(0xFFDC2626), const Color(0xFFEF4444)]; // Red for modifiers
+      return [
+        const Color(0xFFDC2626),
+        const Color(0xFFEF4444),
+      ]; // Red for modifiers
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = _getCardColors();
-    
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -548,11 +562,7 @@ class _OptionCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 32,
-              color: isSelected ? Colors.white : colors[0],
-            ),
+            Icon(icon, size: 32, color: isSelected ? Colors.white : colors[0]),
             const SizedBox(height: 12),
             Text(
               label,
