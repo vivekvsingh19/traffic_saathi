@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTheme {
   AppTheme._();
 
-  // Colors
+  // Primary Colors
   static const Color primaryColor = Color(0xFF1E3A8A); // Deep blue
   static const Color onPrimaryColor = Colors.white; // White text on primary
   static const Color backgroundColor = Color(
@@ -16,8 +16,25 @@ class AppTheme {
   static const Color subtitleColor = Color(
     0xFF6B7280,
   ); // Gray for secondary texts
+
+  // Semantic Colors
   static const Color successColor = Color(0xFF10B981); // Green
   static const Color warningColor = Color(0xFFEF4444); // Red
+  static const Color infoColor = Color(0xFF3B82F6); // Blue
+  static const Color cautionColor = Color(0xFFF59E0B); // Amber
+
+  // Accent Colors for Modern Design
+  static const Color accentPurple = Color(0xFFD9D5FF); // Light purple
+  static const Color accentBlue = Color(0xFFDFEAFE); // Light blue
+  static const Color accentGreen = Color(0xFFF0FDF4); // Light green
+  static const Color accentOrange = Color(0xFFFEF3C7); // Light orange
+  static const Color accentRed = Color(0xFFFEE2E2); // Light red
+  static const Color accentTeal = Color(0xFFF0FDFA); // Light teal
+
+  // Brand Accent Colors
+  static const Color violationRed = Color(0xFFDC2626); // Darker red for violations
+  static const Color successGreen = Color(0xFF059669); // Strong green for success
+  static const Color infoBlue = Color(0xFF1E40AF); // Darker blue for info
 
   static ThemeData get lightTheme {
     final textTheme = GoogleFonts.interTextTheme();

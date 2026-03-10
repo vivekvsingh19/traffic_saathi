@@ -50,6 +50,21 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
     }
   }
 
+  List<Color> _getProgressColors(int index) {
+    switch (index) {
+      case 0:
+        return [const Color(0xFF6D28D9), const Color(0xFF7C3AED)]; // Purple
+      case 1:
+        return [const Color(0xFF0D9488), const Color(0xFF14B8A6)]; // Teal
+      case 2:
+        return [const Color(0xFFDC2626), const Color(0xFFEF4444)]; // Red
+      case 3:
+        return [const Color(0xFF1E40AF), const Color(0xFF3B82F6)]; // Blue
+      default:
+        return [const Color(0xFF1E3A8A), const Color(0xFF3B82F6)];
+    }
+  }
+
   IconData _getViolationIcon(String title) {
     if (title.contains('Helmet')) return CupertinoIcons.shield_fill;
     if (title.contains('Seatbelt')) return CupertinoIcons.car_detailed;
@@ -105,11 +120,17 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
         elevation: 0,
         leading: _currentPage > 0
             ? IconButton(
-                icon: const Icon(CupertinoIcons.back, color: AppTheme.darkAccent),
+                icon: const Icon(
+                  CupertinoIcons.back,
+                  color: AppTheme.darkAccent,
+                ),
                 onPressed: _previousPage,
               )
             : IconButton(
-                icon: const Icon(CupertinoIcons.back, color: AppTheme.darkAccent),
+                icon: const Icon(
+                  CupertinoIcons.back,
+                  color: AppTheme.darkAccent,
+                ),
                 onPressed: () => Navigator.pop(context),
               ),
         title: Text(
@@ -125,9 +146,9 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Progress Indicator
+            // Progress Indicator with gradient
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               child: Row(
                 children: List.generate(4, (index) {
                   return Expanded(
@@ -135,9 +156,14 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                       margin: EdgeInsets.only(right: index < 3 ? 8 : 0),
                       height: 6,
                       decoration: BoxDecoration(
-                        color: index <= _currentPage
-                            ? const Color(0xFF1E3A8A)
-                            : Colors.grey.shade300,
+                        gradient: index <= _currentPage
+                            ? LinearGradient(
+                                colors: _getProgressColors(index),
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              )
+                            : null,
+                        color: index <= _currentPage ? null : Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(3),
                       ),
                     ),
@@ -172,11 +198,7 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       physics: const BouncingScrollPhysics(),
       children: [
-        _buildStepHeader(
-          '1',
-          'Select Violation Type',
-          'What rule was broken?',
-        ),
+        _buildStepHeader('1', 'Select Violation Type', 'What rule was broken?'),
         const SizedBox(height: 24),
         ...mockViolations.map((violation) {
           final isSelected = selectedViolation == violation;
@@ -191,16 +213,27 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                 height: 100,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: isSelected ? const Color(0xFF1E3A8A) : Colors.white,
+                  gradient: isSelected
+                      ? LinearGradient(
+                          colors: const [Color(0xFF6D28D9), Color(0xFF7C3AED)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        )
+                      : null,
+                  color: isSelected ? null : Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: isSelected ? const Color(0xFF1E3A8A) : Colors.grey.shade200,
+                    color: isSelected
+                        ? const Color(0xFF6D28D9)
+                        : Colors.grey.shade200,
                     width: 2,
                   ),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: const Color(0xFF1E3A8A).withValues(alpha: 0.2),
+                            color: const Color(
+                              0xFF6D28D9,
+                            ).withValues(alpha: 0.2),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),
@@ -220,7 +253,9 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                       child: Icon(
                         _getViolationIcon(violation.title),
                         size: 24,
-                        color: isSelected ? Colors.white : const Color(0xFF1E3A8A),
+                        color: isSelected
+                            ? Colors.white
+                            : const Color(0xFF1E3A8A),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -236,7 +271,9 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
                             style: GoogleFonts.inter(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: isSelected ? Colors.white : AppTheme.darkAccent,
+                              color: isSelected
+                                  ? Colors.white
+                                  : AppTheme.darkAccent,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -388,13 +425,24 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
   }
 
   Widget _buildStepHeader(String step, String title, String subtitle) {
+    Map<String, List<Color>> stepColors = {
+      '1': [const Color(0xFF6D28D9), const Color(0xFF7C3AED)], // Purple
+      '2': [const Color(0xFF0D9488), const Color(0xFF14B8A6)], // Teal
+      '3': [const Color(0xFFDC2626), const Color(0xFFEF4444)], // Red
+      '4': [const Color(0xFF1E40AF), const Color(0xFF3B82F6)], // Blue
+    };
+
+    final colors = stepColors[step] ?? [const Color(0xFF1E3A8A), const Color(0xFF3B82F6)];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: const Color(0xFF1E3A8A).withValues(alpha: 0.1),
+            gradient: LinearGradient(
+              colors: [colors[0].withValues(alpha: 0.1), colors[1].withValues(alpha: 0.1)],
+            ),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
@@ -402,7 +450,7 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
             style: GoogleFonts.inter(
               fontSize: 12,
               fontWeight: FontWeight.w700,
-              color: const Color(0xFF1E3A8A),
+              color: colors[0],
               letterSpacing: 1.2,
             ),
           ),
@@ -464,18 +512,36 @@ class _OptionCard extends StatelessWidget {
     required this.onTap,
   });
 
+  List<Color> _getCardColors() {
+    // Determine color based on label
+    if (label.contains('First') || label.contains('Personal') || label.contains('No')) {
+      return [const Color(0xFF0D9488), const Color(0xFF14B8A6)]; // Teal for positive
+    } else {
+      return [const Color(0xFFDC2626), const Color(0xFFEF4444)]; // Red for modifiers
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final colors = _getCardColors();
+    
     return GestureDetector(
       onTap: onTap,
       child: Container(
         height: 160,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF1E3A8A) : Colors.white,
+          gradient: isSelected
+              ? LinearGradient(
+                  colors: colors,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : null,
+          color: isSelected ? null : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? const Color(0xFF1E3A8A) : Colors.grey.shade200,
+            color: isSelected ? colors[0] : Colors.grey.shade200,
             width: 2,
           ),
         ),
@@ -485,7 +551,7 @@ class _OptionCard extends StatelessWidget {
             Icon(
               icon,
               size: 32,
-              color: isSelected ? Colors.white : const Color(0xFF1E3A8A),
+              color: isSelected ? Colors.white : colors[0],
             ),
             const SizedBox(height: 12),
             Text(
