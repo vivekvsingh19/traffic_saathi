@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../data/mock_data.dart';
 import '../../models/violation.dart';
+import 'fine_result_screen.dart';
 
 class FineCalculatorScreen extends StatefulWidget {
   const FineCalculatorScreen({super.key});
@@ -13,40 +14,104 @@ class FineCalculatorScreen extends StatefulWidget {
 }
 
 class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
   Violation? selectedViolation;
-  bool isFirstOffence = true;
-  bool isCommercialVehicle = false;
-  bool isAccidentInvolved = false;
+  bool? isFirstOffence;
+  bool? isCommercialVehicle;
+  bool? isAccidentInvolved;
 
-  int calculateFine() {
-    if (selectedViolation == null) return 0;
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
-    int baseFine = isFirstOffence
+  void _nextPage() {
+    if (_currentPage < 3) {
+      _pageController.animateToPage(
+        _currentPage + 1,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      _calculateAndNavigate();
+    }
+  }
+
+  void _previousPage() {
+    if (_currentPage > 0) {
+      _pageController.animateToPage(
+        _currentPage - 1,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  IconData _getViolationIcon(String title) {
+    if (title.contains('Helmet')) return CupertinoIcons.shield_fill;
+    if (title.contains('Seatbelt')) return CupertinoIcons.car_detailed;
+    if (title.contains('Triple Riding')) return CupertinoIcons.person_2_fill;
+    if (title.contains('Speeding')) return CupertinoIcons.gauge;
+    if (title.contains('Drink')) return CupertinoIcons.drop_fill;
+    if (title.contains('Registration')) return CupertinoIcons.doc_text_fill;
+    if (title.contains('License')) return CupertinoIcons.creditcard_fill;
+    if (title.contains('Insurance')) return CupertinoIcons.shield_lefthalf_fill;
+    if (title.contains('Wrong Side')) return CupertinoIcons.arrow_left_right;
+    if (title.contains('Mobile')) return CupertinoIcons.device_phone_portrait;
+    if (title.contains('Red Light')) return CupertinoIcons.stop_circle_fill;
+    if (title.contains('Pollution'))
+      return CupertinoIcons.leaf_arrow_circlepath;
+    return CupertinoIcons.exclamationmark_triangle_fill;
+  }
+
+  void _calculateAndNavigate() {
+    if (selectedViolation == null) return;
+
+    int baseFine = (isFirstOffence ?? true)
         ? selectedViolation!.fineFirst
         : selectedViolation!.fineRepeat;
 
-    // Commercial vehicle surcharge (25%)
-    if (isCommercialVehicle) {
+    if (isCommercialVehicle == true) {
       baseFine = (baseFine * 1.25).toInt();
     }
 
-    // Accident surcharge (50%)
-    if (isAccidentInvolved) {
+    if (isAccidentInvolved == true) {
       baseFine = (baseFine * 1.5).toInt();
     }
 
-    return baseFine;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FineResultScreen(
+          violation: selectedViolation!,
+          totalFine: baseFine,
+          isFirstOffence: isFirstOffence ?? true,
+          isCommercialVehicle: isCommercialVehicle ?? false,
+          isAccidentInvolved: isAccidentInvolved ?? false,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final calculatedFine = calculateFine();
-
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: AppBar(
         backgroundColor: AppTheme.backgroundColor,
         elevation: 0,
+        leading: _currentPage > 0
+            ? IconButton(
+                icon: const Icon(CupertinoIcons.back, color: AppTheme.darkAccent),
+                onPressed: _previousPage,
+              )
+            : IconButton(
+                icon: const Icon(CupertinoIcons.back, color: AppTheme.darkAccent),
+                onPressed: () => Navigator.pop(context),
+              ),
         title: Text(
           'Fine Calculator',
           style: GoogleFonts.inter(
@@ -58,302 +123,343 @@ class _FineCalculatorScreenState extends State<FineCalculatorScreen> {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          physics: const BouncingScrollPhysics(),
+        child: Column(
           children: [
-            // Select Violation
-            Text(
-              '1. Select Violation',
-              style: GoogleFonts.inter(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: AppTheme.darkAccent,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: DropdownButton<Violation>(
-                isExpanded: true,
-                value: selectedViolation,
-                hint: Text(
-                  'Choose a violation...',
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    color: AppTheme.subtitleColor,
-                  ),
-                ),
-                underline: const SizedBox(),
-                items: mockViolations.map((violation) {
-                  return DropdownMenuItem(
-                    value: violation,
-                    child: Text(
-                      violation.title,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        color: AppTheme.darkAccent,
+            // Progress Indicator
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: Row(
+                children: List.generate(4, (index) {
+                  return Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(right: index < 3 ? 8 : 0),
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: index <= _currentPage
+                            ? const Color(0xFF1E3A8A)
+                            : Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(3),
                       ),
                     ),
                   );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() => selectedViolation = value);
-                },
+                }),
               ),
             ),
-            const SizedBox(height: 32),
-
-            // First / Repeat Offence
-            if (selectedViolation != null) ...[
-              Text(
-                '2. Offence Type',
-                style: GoogleFonts.inter(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.darkAccent,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
+            const SizedBox(height: 16),
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                onPageChanged: (index) {
+                  setState(() => _currentPage = index);
+                },
                 children: [
-                  Expanded(
-                    child: _OffenceButton(
-                      label: '1st Offence',
-                      isSelected: isFirstOffence,
-                      onTap: () => setState(() => isFirstOffence = true),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _OffenceButton(
-                      label: 'Repeat Offence',
-                      isSelected: !isFirstOffence,
-                      onTap: () => setState(() => isFirstOffence = false),
-                    ),
-                  ),
+                  _buildViolationSelection(),
+                  _buildOffenceTypeSelection(),
+                  _buildVehicleTypeSelection(),
+                  _buildAccidentSelection(),
                 ],
               ),
-              const SizedBox(height: 32),
-
-              // Commercial Vehicle
-              Text(
-                '3. Vehicle Type',
-                style: GoogleFonts.inter(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.darkAccent,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: _OffenceButton(
-                      label: 'Personal',
-                      isSelected: !isCommercialVehicle,
-                      onTap: () => setState(() => isCommercialVehicle = false),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _OffenceButton(
-                      label: 'Commercial (+25%)',
-                      isSelected: isCommercialVehicle,
-                      onTap: () => setState(() => isCommercialVehicle = true),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-
-              // Accident Involved
-              Text(
-                '4. Accident Involved?',
-                style: GoogleFonts.inter(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.darkAccent,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: _OffenceButton(
-                      label: 'No',
-                      isSelected: !isAccidentInvolved,
-                      onTap: () => setState(() => isAccidentInvolved = false),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _OffenceButton(
-                      label: 'Yes (+50%)',
-                      isSelected: isAccidentInvolved,
-                      onTap: () => setState(() => isAccidentInvolved = true),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40),
-
-              // Fine Calculation Result
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1E3A8A),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Your Fine Amount',
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white.withValues(alpha: 0.85),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      '₹$calculatedFine',
-                      style: GoogleFonts.inter(
-                        fontSize: 48,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        selectedViolation!.title,
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Additional Info
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.grey.shade200),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Important Information',
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.darkAccent,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    _InfoRow(
-                      label: 'License Seizable',
-                      value: selectedViolation!.licenseSeizable
-                          ? '✓ Yes'
-                          : '✗ No',
-                      valueColor: selectedViolation!.licenseSeizable
-                          ? const Color(0xFFEF4444)
-                          : const Color(0xFF10B981),
-                    ),
-                    const SizedBox(height: 8),
-                    _InfoRow(
-                      label: 'Vehicle Seizable',
-                      value: selectedViolation!.vehicleSeizable
-                          ? '✓ Yes'
-                          : '✗ No',
-                      valueColor: selectedViolation!.vehicleSeizable
-                          ? const Color(0xFFEF4444)
-                          : const Color(0xFF10B981),
-                    ),
-                    const SizedBox(height: 8),
-                    _InfoRow(
-                      label: 'Receipt Required',
-                      value: selectedViolation!.receiptMandatory
-                          ? '✓ Yes'
-                          : '✗ No',
-                      valueColor: AppTheme.primaryColor,
-                    ),
-                    const SizedBox(height: 8),
-                    _InfoRow(
-                      label: 'Cash Payment Allowed',
-                      value: selectedViolation!.cashAllowed ? '✓ Yes' : '✗ No',
-                      valueColor: selectedViolation!.cashAllowed
-                          ? const Color(0xFF10B981)
-                          : AppTheme.subtitleColor,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32),
-            ] else
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFEF3C7),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFE5B800)),
-                ),
-                child: Column(
-                  children: [
-                    const Icon(
-                      CupertinoIcons.exclamationmark_circle,
-                      size: 32,
-                      color: Color(0xFFD97706),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'Select a violation to calculate fine',
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF92400E),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            ),
           ],
         ),
       ),
     );
   }
+
+  Widget _buildViolationSelection() {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      physics: const BouncingScrollPhysics(),
+      children: [
+        _buildStepHeader(
+          '1',
+          'Select Violation Type',
+          'What rule was broken?',
+        ),
+        const SizedBox(height: 24),
+        ...mockViolations.map((violation) {
+          final isSelected = selectedViolation == violation;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: GestureDetector(
+              onTap: () {
+                setState(() => selectedViolation = violation);
+                _nextPage();
+              },
+              child: Container(
+                height: 100,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: isSelected ? const Color(0xFF1E3A8A) : Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: isSelected ? const Color(0xFF1E3A8A) : Colors.grey.shade200,
+                    width: 2,
+                  ),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: const Color(0xFF1E3A8A).withValues(alpha: 0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ]
+                      : null,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? Colors.white.withValues(alpha: 0.2)
+                            : const Color(0xFFF3F4F6),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        _getViolationIcon(violation.title),
+                        size: 24,
+                        color: isSelected ? Colors.white : const Color(0xFF1E3A8A),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            violation.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: isSelected ? Colors.white : AppTheme.darkAccent,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '₹${violation.fineFirst} - ₹${violation.fineRepeat}',
+                            style: GoogleFonts.inter(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: isSelected
+                                  ? Colors.white.withValues(alpha: 0.8)
+                                  : AppTheme.subtitleColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      isSelected
+                          ? CupertinoIcons.checkmark_circle_fill
+                          : CupertinoIcons.arrow_right_circle_fill,
+                      size: 28,
+                      color: isSelected
+                          ? Colors.white
+                          : const Color(0xFF1E3A8A).withValues(alpha: 0.5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
+  Widget _buildOffenceTypeSelection() {
+    return _buildSelectionPage(
+      step: '2',
+      title: 'Offence History',
+      subtitle: 'Is this the first time?',
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _OptionCard(
+                icon: CupertinoIcons.number_circle_fill,
+                label: 'First Time',
+                isSelected: isFirstOffence == true,
+                onTap: () {
+                  setState(() => isFirstOffence = true);
+                  _nextPage();
+                },
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: _OptionCard(
+                icon: CupertinoIcons.repeat,
+                label: 'Repeated',
+                isSelected: isFirstOffence == false,
+                onTap: () {
+                  setState(() => isFirstOffence = false);
+                  _nextPage();
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildVehicleTypeSelection() {
+    return _buildSelectionPage(
+      step: '3',
+      title: 'Vehicle Type',
+      subtitle: 'What kind of vehicle?',
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _OptionCard(
+                icon: CupertinoIcons.car_fill,
+                label: 'Personal',
+                isSelected: isCommercialVehicle == false,
+                onTap: () {
+                  setState(() => isCommercialVehicle = false);
+                  _nextPage();
+                },
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: _OptionCard(
+                icon: CupertinoIcons.bus,
+                label: 'Commercial',
+                subtitle: '+25% Fine',
+                isSelected: isCommercialVehicle == true,
+                onTap: () {
+                  setState(() => isCommercialVehicle = true);
+                  _nextPage();
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAccidentSelection() {
+    return _buildSelectionPage(
+      step: '4',
+      title: 'Accident Status',
+      subtitle: 'Was there any accident?',
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _OptionCard(
+                icon: CupertinoIcons.checkmark_shield_fill,
+                label: 'No Accident',
+                isSelected: isAccidentInvolved == false,
+                onTap: () {
+                  setState(() => isAccidentInvolved = false);
+                  _nextPage();
+                },
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: _OptionCard(
+                icon: CupertinoIcons.exclamationmark_triangle_fill,
+                label: 'Accident',
+                subtitle: '+50% Fine',
+                isSelected: isAccidentInvolved == true,
+                onTap: () {
+                  setState(() => isAccidentInvolved = true);
+                  Future.delayed(const Duration(milliseconds: 300), () {
+                    _calculateAndNavigate();
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStepHeader(String step, String title, String subtitle) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: const Color(0xFF1E3A8A).withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            'STEP $step OF 4',
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF1E3A8A),
+              letterSpacing: 1.2,
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          title,
+          style: GoogleFonts.inter(
+            fontSize: 28,
+            fontWeight: FontWeight.w800,
+            color: AppTheme.darkAccent,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          subtitle,
+          style: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: AppTheme.subtitleColor,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSelectionPage({
+    required String step,
+    required String title,
+    required String subtitle,
+    required List<Widget> children,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildStepHeader(step, title, subtitle),
+          const SizedBox(height: 48),
+          ...children,
+        ],
+      ),
+    );
+  }
 }
 
-class _OffenceButton extends StatelessWidget {
+class _OptionCard extends StatelessWidget {
+  final IconData icon;
   final String label;
+  final String? subtitle;
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _OffenceButton({
+  const _OptionCard({
+    required this.icon,
     required this.label,
+    this.subtitle,
     required this.isSelected,
     required this.onTap,
   });
@@ -363,62 +469,50 @@ class _OffenceButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        height: 160,
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFF1E3A8A) : Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected ? const Color(0xFF1E3A8A) : Colors.grey.shade200,
+            width: 2,
           ),
         ),
-        child: Center(
-          child: Text(
-            label,
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: isSelected ? Colors.white : AppTheme.darkAccent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 32,
+              color: isSelected ? Colors.white : const Color(0xFF1E3A8A),
             ),
-          ),
+            const SizedBox(height: 12),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: isSelected ? Colors.white : AppTheme.darkAccent,
+              ),
+            ),
+            if (subtitle != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                subtitle!,
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: isSelected
+                      ? Colors.white.withValues(alpha: 0.8)
+                      : AppTheme.subtitleColor,
+                ),
+              ),
+            ],
+          ],
         ),
       ),
-    );
-  }
-}
-
-class _InfoRow extends StatelessWidget {
-  final String label;
-  final String value;
-  final Color valueColor;
-
-  const _InfoRow({
-    required this.label,
-    required this.value,
-    required this.valueColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: AppTheme.subtitleColor,
-          ),
-        ),
-        Text(
-          value,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: valueColor,
-          ),
-        ),
-      ],
     );
   }
 }
